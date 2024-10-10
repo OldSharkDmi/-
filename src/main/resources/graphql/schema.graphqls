@@ -1,0 +1,47 @@
+type Query {
+    airports: [Airport]
+    planes: [Plane]
+}
+
+type Mutation {
+    addAirport(IATA: String, terminalNumber: String): Airport
+    addPlane(flightNumber: Int, aviaCompany: String, departureIATA: String, arrivalIATA: String): Plane
+}
+
+type Plane {
+    flightNumber: Int
+    aviaCompany: String
+    departureAirport: Airport
+    arrivalAirport: Airport
+    passengers: [Passenger]
+}
+
+type Passenger {
+    boardingPass: ID
+    name: String
+    surname: String
+    passport: String
+    phone: String
+    baggages: [Baggage]
+}
+
+type Baggage {
+    id: ID
+    weight: Float
+    inspection: String
+}
+
+
+
+type Airport {
+    IATA: String
+    terminal: Terminal
+    departingPlanes: [Plane]
+    arrivingPlanes: [Plane]
+}
+
+
+
+type Terminal {
+    number: String
+}
