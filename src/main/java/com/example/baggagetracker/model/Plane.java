@@ -23,7 +23,16 @@ public class Plane {
     private Airport arrivalAirport;
 
     @OneToMany(mappedBy = "plane")
+    @JsonBackReference
     private List<Passenger> passengers;
+
+    public Plane(Long id) {
+        //this.id = id;
+    }
+
+    public Plane() {
+
+    }
 
     public void setArrivalAirport(Airport arrivalAirport) {
         this.arrivalAirport = arrivalAirport;

@@ -1,5 +1,7 @@
 package com.example.baggagetracker.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import jakarta.persistence.Id;
@@ -9,7 +11,6 @@ import java.util.List;
 public class Passenger {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Автоматическая генерация уникального ID
     private Long boardingPass;
 
     private String name;
@@ -18,10 +19,12 @@ public class Passenger {
     private String phone;
 
     @OneToMany(mappedBy = "passenger", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<Baggage> baggages;
 
     @ManyToOne
     @JoinColumn(name = "plane_id")
+    @JsonManagedReference
     private Plane plane;
 
     // Getters и Setters

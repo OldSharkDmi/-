@@ -1,4 +1,5 @@
 package com.example.baggagetracker.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
@@ -19,6 +20,7 @@ public class Airport {
 
     @ManyToOne
     @JoinColumn(name = "terminal_id")
+    @JsonBackReference
     private Terminal terminal;
 
     public void setArrivingPlanes(List<Plane> arrivingPlanes) {

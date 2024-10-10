@@ -3,9 +3,10 @@ package com.example.baggagetracker.Controllers;
 import com.example.baggagetracker.DTO.AirportDTO;
 import com.example.baggagetracker.Exceptions.ResourceNotFoundException;
 import com.example.baggagetracker.Repository.AirportRepository;
+import com.example.baggagetracker.Repository.TerminalRepository;
 import com.example.baggagetracker.mappers.AirportMapper;
 import com.example.baggagetracker.model.Airport;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.baggagetracker.model.Terminal;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +15,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-
 @RestController
 @RequestMapping("/airports")
 public class AirportController {
 
     private final AirportRepository airportRepository;
-
-    public AirportController(AirportRepository airportRepository) {
+    private final TerminalRepository terminalRepository;
+    public AirportController(AirportRepository airportRepository, TerminalRepository terminalRepository) {
         this.airportRepository = airportRepository;
+        this.terminalRepository = terminalRepository;
     }
 
 
@@ -51,6 +51,7 @@ public class AirportController {
     }
 
 
+
     @PostMapping
     public ResponseEntity<EntityModel<AirportDTO>> createAirport(@RequestBody AirportDTO airportDTO) {
         Airport airport = AirportMapper.toEntity(airportDTO);
@@ -65,10 +66,14 @@ public class AirportController {
 
     @PutMapping("/{IATA}")
     public ResponseEntity<EntityModel<AirportDTO>> updateAirport(@PathVariable String IATA, @RequestBody AirportDTO airportDTO) {
+
         Airport airport = airportRepository.findById(IATA)
                 .orElseThrow(() -> new ResourceNotFoundException("Airport not found with IATA " + IATA));
 
-        airport.setTerminal(airportDTO.getTerminal());
+        Terminal terminal = terminalRepository.findById(airportDTO.getTerminalId())
+                .orElseThrow(() -> new ResourceNotFoundException("Terminal not found with ID " + airportDTO.getTerminalId()));
+
+        airport.setTerminal(terminal);
 
         Airport updatedAirport = airportRepository.save(airport);
         AirportDTO dto = AirportMapper.toDTO(updatedAirport);

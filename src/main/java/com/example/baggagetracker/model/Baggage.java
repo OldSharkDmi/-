@@ -1,4 +1,5 @@
 package com.example.baggagetracker.model;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.Id;
 
@@ -10,12 +11,12 @@ public class Baggage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private double weight;
     private String inspection;
 
     @ManyToOne
     @JoinColumn(name = "passenger_id")
+    @JsonManagedReference
     private Passenger passenger;
 
     public void setId(Long id) {

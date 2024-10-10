@@ -6,44 +6,39 @@ import com.example.baggagetracker.model.Terminal;
 import java.util.List;
 
 public class AirportDTO {
-
     private String IATA;
-    private List<Plane> departingPlanes;
-    private List<Plane> arrivingPlanes;
-
-    private Terminal terminal;
-
-    public Terminal getTerminal() {
-        return terminal;
-    }
-
-    public void setTerminal(Terminal terminal) {
-        this.terminal = terminal;
-    }
-
+    private List<Long> departingPlanes;
+    private List<Long> arrivingPlanes;
+    private String terminalId;
     public String getIATA() {
         return IATA;
     }
-
-
 
     public void setIATA(String IATA) {
         this.IATA = IATA;
     }
 
-    public void setDepartingPlanes(List<Plane> departingPlanes) {
+    public List<Long> getDepartingPlanes() {
+        return departingPlanes;
+    }
+
+    public void setDepartingPlanes(List<Long> departingPlanes) {
         this.departingPlanes = departingPlanes;
     }
 
-    public void setArrivingPlanes(List<Plane> arrivingPlanes) {
-        this.arrivingPlanes = arrivingPlanes;
-    }
-
-    public List<Plane> getArrivingPlanes() {
+    public List<Long> getArrivingPlanes() {
         return arrivingPlanes;
     }
 
-    public List<Plane> getDepartingPlanes() {
-        return departingPlanes;
+    public void setArrivingPlanes(List<Long> arrivingPlanes) {
+        this.arrivingPlanes = arrivingPlanes;
+    }
+
+    public void setTerminalId(String terminalId) {
+        this.terminalId = terminalId;
+    }
+
+    public String getTerminalId() {
+        return terminalId;
     }
 }
